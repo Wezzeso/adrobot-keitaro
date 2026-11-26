@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кампании · Adrobot</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="page-header">
+    <div class="container header-inner">
+      <h1>Кампании</h1>
+      <span id="tracker-mode" class="badge" hidden></span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="catalog-notice" class="notice" hidden>
+      <p id="catalog-message" role="status"></p>
+      <button id="retry-catalog" type="button" class="secondary" hidden>Повторить</button>
+    </div>
+
+    <div class="layout">
+      <section class="panel" aria-labelledby="create-heading">
+        <h2 id="create-heading">Новая кампания</h2>
+        <form id="create-campaign">
+          <fieldset id="create-fields" disabled>
+            <label for="campaign-name">Название кампании</label>
+            <input id="campaign-name" name="name" maxlength="120" required>
+
+            <div class="field-pair">
+              <div>
+                <label for="country">Код страны (ISO)</label>
+                <input id="country" name="country" placeholder="KZ" maxlength="2" pattern="[A-Za-z]{2}"
+                       title="Две латинские буквы, например KZ" autocapitalize="characters" spellcheck="false" required>
+              </div>
+              <div>
+                <label for="initial-offer">Оффер</label>
+                <select id="initial-offer" name="offer_id" required></select>
+              </div>
+            </div>
+
+            <label for="domain">Домен</label>
+            <select id="domain" name="domain_id" required></select>
+
+            <div class="field-pair">
+              <div>
+                <label for="group">Группа</label>
+                <select id="group" name="group_id" required></select>
+              </div>
+              <div>
+                <label for="source">Источник</label>
+                <select id="source" name="source_id" required></select>
+              </div>
+            </div>
+          <ol class="route-preview" aria-label="Порядок потоков новой кампании">
+            <li>Выбранная страна → Google</li>
+            <li>Остальные переходы → выбранный оффер</li>
+          </ol>
+            <div class="form-actions">
+              <button id="create-button" type="submit">Создать кампанию</button>
+            </div>
+          </fieldset>
+          <p id="create-status" class="status" role="status"></p>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="offers-heading">
+        <h2 id="offers-heading">Потоки кампании</h2>
+        <label for="campaign-picker">Кампания</label>
+        <div class="campaign-controls">
+          <select id="campaign-picker" disabled></select>
+          <button id="refresh-flows" type="button" class="secondary" disabled>Обновить потоки</button>
+        </div>
+
+        <div class="status-row">
+          <p id="campaign-status" class="status" role="status"></p>
+        </div>
+        <div id="flow-controls" class="flow-controls" hidden>
+          <label for="flow-picker">Поток</label>
+          <select id="flow-picker"></select>
+          <p id="flow-placeholder" class="empty-state" hidden>В этом потоке нет офферов.</p>
+        </div>
+
+        <form id="offers-form" hidden>
+          <div class="allocation-header">
+            <span id="draft-status" class="badge" role="status"></span>
+            <p id="weight-total" class="summary" aria-live="polite" aria-atomic="true"></p>
+          </div>
+          <table id="offers-table" hidden>
+            <caption class="visually-hidden">Офферы выбранной кампании</caption>
+            <thead>
+              <tr>
+                <th scope="col">Оффер</th>
+                <th scope="col" class="weight-column">Доля</th>
+                <th scope="col"><span class="visually-hidden">Действия</span></th>
+              </tr>
+            </thead>
+            <tbody id="offer-rows"></tbody>
+          </table>
+          <p id="empty-offers" class="empty-state" hidden>В кампании нет офферов.</p>
+
+          <div class="add-offer">
+            <div class="offer-search">
+              <label for="offer-search">Поиск по названию или ID</label>
+              <input type="search" id="offer-search" autocomplete="off" placeholder="Например, 102">
+            </div>
+            <div>
+              <label for="available-offer">Доступные офферы</label>
+              <select id="available-offer"></select>
+            </div>
+            <button id="add-offer" type="button" class="secondary" disabled>Добавить</button>
+          </div>
+
+          <div class="editor-footer">
+            <div class="editor-actions">
+              <button id="reset-offers" type="button" class="secondary" disabled>Отменить</button>
+              <button id="save-offers" type="submit" disabled>Опубликовать</button>
+            </div>
+          </div>
+          <p id="offers-status" class="status" role="status"></p>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
